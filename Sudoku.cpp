@@ -18,7 +18,7 @@ void Sudoku::generate() {
 	}
 
 
-	int numSwaps = rand();
+	int numSwaps = rand() % 500;
 
 	while (numSwaps > 0) {
 		int num1 = rand() % 9 + 1;
@@ -44,7 +44,7 @@ void Sudoku::generate() {
 	}
 
 
-	int rowSwaps = rand();
+	int rowSwaps = rand() % 500;
 
 	while (rowSwaps > 0) {
 		int row1Pos = rand() % 9 + 1;
@@ -67,7 +67,7 @@ void Sudoku::generate() {
 	}
 
 
-	int colSwaps = rand();
+	int colSwaps = rand() % 500;
 
 	while (colSwaps > 0) {
 		int col1Pos = rand() % 9 + 1;
