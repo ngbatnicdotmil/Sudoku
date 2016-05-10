@@ -16,16 +16,15 @@ enum colors
 
 
 class Sudoku {
-
 public:
 	void generate();
+	short diff();
 	void take(short);
 	void display();
 	void play();
-	short diff();
 	bool boardSolved();
 private:
-	vector <COORD> xy_cv;
-	vector <COORD> xy;
 	int boardArray[BOARD_SIZE][BOARD_SIZE];
+	vector <COORD> xy;
+	vector <COORD> xy_cv;
 };
