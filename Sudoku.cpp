@@ -7,91 +7,92 @@
 HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void Sudoku::generate() {
-	srand(static_cast<int>(time(NULL)));
-	for (int i = 0; i < BOARD_SIZE; i++) {
-		for (int j = 0; j < BOARD_SIZE; j++) {
-			boardArray[i][j] = j + ((i / 3) + 3 * (i % 3)) + 1;
-			if (boardArray[i][j] > 9) {
-				boardArray[i][j] = boardArray[i][j] - 9;
-			}
-		}
-	}
-
-
-	int numSwaps = rand() % 500;
-
-	while (numSwaps > 0) {
-		int num1 = rand() % 9 + 1;
-		int num2 = rand() % 9 + 1;
-
-		if (num1 != num2) {
-			numSwaps--;
-
-			for (int i = 0; i < BOARD_SIZE; i++) {
-				for (int j = 0; j < BOARD_SIZE; j++) {
-
-					if (boardArray[i][j] == num1) {
-						boardArray[i][j] = num2;
-					}
-					else if (boardArray[i][j] == num2) {
-						boardArray[i][j] = num1;
-					}
-					else
-						continue;
+	while (!boardSolved()) {
+		srand(static_cast<int>(time(NULL)));
+		for (int i = 0; i < BOARD_SIZE; i++) {
+			for (int j = 0; j < BOARD_SIZE; j++) {
+				boardArray[i][j] = j + ((i / 3) + 3 * (i % 3)) + 1;
+				if (boardArray[i][j] > 9) {
+					boardArray[i][j] = boardArray[i][j] - 9;
 				}
 			}
 		}
-	}
 
 
-	int rowSwaps = rand() % 500;
+		int numSwaps = rand() % 50;
 
-	while (rowSwaps > 0) {
-		int row1Pos = rand() % 9 + 1;
-		int row2Pos = rand() % 9 + 1;
+		while (numSwaps > 0) {
+			int num1 = rand() % 9 + 1;
+			int num2 = rand() % 9 + 1;
 
-		if (((row1Pos / 3) == (row2Pos / 3)) && (row1Pos != row2Pos)) {
-			int row1[BOARD_SIZE];
-			int row2[BOARD_SIZE];
+			if (num1 != num2) {
+				numSwaps--;
 
-			for (int i = 0; i < BOARD_SIZE; i++) {
-				row1[i] = boardArray[row1Pos][i];
-				row2[i] = boardArray[row2Pos][i];
-			}
-			rowSwaps--;
-			for (int i = 0; i < BOARD_SIZE; i++) {
-				boardArray[row1Pos][i] = row2[i];
-				boardArray[row2Pos][i] = row1[i];
-			}
-		}
-	}
-
-
-	int colSwaps = rand() % 500;
-
-	while (colSwaps > 0) {
-		int col1Pos = rand() % 9 + 1;
-		int col2Pos = rand() % 9 + 1;
-
-		if (((col1Pos / 3) == (col2Pos / 3)) && (col1Pos != col2Pos)) {
-			int col1[BOARD_SIZE];
-			int col2[BOARD_SIZE];
-
-			for (int i = 0; i < BOARD_SIZE; i++) {
-				col1[i] = boardArray[i][col1Pos];
-				col2[i] = boardArray[i][col2Pos];
-				colSwaps--;
 				for (int i = 0; i < BOARD_SIZE; i++) {
+					for (int j = 0; j < BOARD_SIZE; j++) {
+
+						if (boardArray[i][j] == num1) {
+							boardArray[i][j] = num2;
+						}
+						else if (boardArray[i][j] == num2) {
+							boardArray[i][j] = num1;
+						}
+						else
+							continue;
+					}
 				}
-				boardArray[i][col1Pos] = col2[i];
-				boardArray[i][col2Pos] = col1[i];
 			}
 		}
+
+
+		int rowSwaps = rand() % 50;
+
+		while (rowSwaps > 0) {
+			int row1Pos = rand() % 9 + 1;
+			int row2Pos = rand() % 9 + 1;
+
+			if (((row1Pos / 3) == (row2Pos / 3)) && (row1Pos != row2Pos)) {
+				int row1[BOARD_SIZE];
+				int row2[BOARD_SIZE];
+
+				for (int i = 0; i < BOARD_SIZE; i++) {
+					row1[i] = boardArray[row1Pos][i];
+					row2[i] = boardArray[row2Pos][i];
+				}
+				rowSwaps--;
+				for (int i = 0; i < BOARD_SIZE; i++) {
+					boardArray[row1Pos][i] = row2[i];
+					boardArray[row2Pos][i] = row1[i];
+				}
+			}
+		}
+
+
+		int colSwaps = rand() % 50;
+
+		while (colSwaps > 0) {
+			int col1Pos = rand() % 9 + 1;
+			int col2Pos = rand() % 9 + 1;
+
+			if (((col1Pos / 3) == (col2Pos / 3)) && (col1Pos != col2Pos)) {
+				int col1[BOARD_SIZE];
+				int col2[BOARD_SIZE];
+
+				for (int i = 0; i < BOARD_SIZE; i++) {
+					col1[i] = boardArray[i][col1Pos];
+					col2[i] = boardArray[i][col2Pos];
+					colSwaps--;
+					for (int i = 0; i < BOARD_SIZE; i++) {
+					}
+					boardArray[i][col1Pos] = col2[i];
+					boardArray[i][col2Pos] = col1[i];
+				}
+			}
+		}
+
 	}
 
 }
-
-
 
 void Sudoku::display() {
 	system("cls");
@@ -127,7 +128,7 @@ void Sudoku::display() {
 
 				CONSOLE_SCREEN_BUFFER_INFO SBInfo;
 				GetConsoleScreenBufferInfo(h, &SBInfo);
-			
+
 				xy_cv.push_back(SBInfo.dwCursorPosition);
 
 				SetConsoleTextAttribute(h, Yellow);
@@ -181,7 +182,7 @@ bool Sudoku::boardSolved() {
 void Sudoku::take(short t) {
 
 	COORD tmp;
-	while (t > 0) {	
+	while (t > 0) {
 		int randomX = rand() % 9;
 		int randomY = rand() % 9;
 		if (boardArray[randomX][randomY] != 0) {
@@ -211,14 +212,14 @@ void Sudoku::play() {
 				boardArray[xy.at(pos).X][xy.at(pos).Y]++;
 			else
 				boardArray[xy.at(pos).X][xy.at(pos).Y] = 1;
-				cout << boardArray[xy.at(pos).X][xy.at(pos).Y];
+			cout << boardArray[xy.at(pos).X][xy.at(pos).Y];
 			break;
 		case 80: // DOWN
 			if (boardArray[xy.at(pos).X][xy.at(pos).Y] > 1)
 				boardArray[xy.at(pos).X][xy.at(pos).Y]--;
 			else
 				boardArray[xy.at(pos).X][xy.at(pos).Y] = 9;
-				cout << boardArray[xy.at(pos).X][xy.at(pos).Y];
+			cout << boardArray[xy.at(pos).X][xy.at(pos).Y];
 			break;
 		case 75: // LEFT
 			if (pos == 0)
@@ -246,9 +247,20 @@ void Sudoku::play() {
 			if (boardSolved()) {
 				system("cls");
 				SetConsoleTextAttribute(h, LightGreen);
-				cout << "Congratulations! You solved the puzzle";
-				Sleep(1000);
-				exit(0);
+				cout << "Congratulations! You solved the puzzle" << endl;
+				cout << "Press ENTER to start a new game or ESC to quit";
+				if (_getch() == 13) {
+					system("cls");
+					xy.clear();
+					xy_cv.clear();
+
+					generate();
+					take(diff());
+					display();
+					play();
+				}
+				else
+					exit(0);
 			}
 			else {
 				COORD tmp = { 0,16 };
