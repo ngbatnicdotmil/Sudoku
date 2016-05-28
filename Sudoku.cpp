@@ -45,51 +45,6 @@ void Sudoku::generate() {
 		}
 
 
-		int rowSwaps = rand() % 50;
-
-		while (rowSwaps > 0) {
-			int row1Pos = rand() % 9 + 1;
-			int row2Pos = rand() % 9 + 1;
-
-			if (((row1Pos / 3) == (row2Pos / 3)) && (row1Pos != row2Pos)) {
-				int row1[BOARD_SIZE];
-				int row2[BOARD_SIZE];
-
-				for (int i = 0; i < BOARD_SIZE; i++) {
-					row1[i] = boardArray[row1Pos][i];
-					row2[i] = boardArray[row2Pos][i];
-				}
-				rowSwaps--;
-				for (int i = 0; i < BOARD_SIZE; i++) {
-					boardArray[row1Pos][i] = row2[i];
-					boardArray[row2Pos][i] = row1[i];
-				}
-			}
-		}
-
-
-		int colSwaps = rand() % 50;
-
-		while (colSwaps > 0) {
-			int col1Pos = rand() % 9 + 1;
-			int col2Pos = rand() % 9 + 1;
-
-			if (((col1Pos / 3) == (col2Pos / 3)) && (col1Pos != col2Pos)) {
-				int col1[BOARD_SIZE];
-				int col2[BOARD_SIZE];
-
-				for (int i = 0; i < BOARD_SIZE; i++) {
-					col1[i] = boardArray[i][col1Pos];
-					col2[i] = boardArray[i][col2Pos];
-					colSwaps--;
-					for (int i = 0; i < BOARD_SIZE; i++) {
-					}
-					boardArray[i][col1Pos] = col2[i];
-					boardArray[i][col2Pos] = col1[i];
-				}
-			}
-		}
-
 	}
 
 }
